@@ -1,0 +1,8 @@
+LOAD DATA INFILE 'C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\CHART19641975.csv'
+INTO TABLE TOP100
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+;
+
+tee C:\\Users\\Fredi\\Schoolwork\\DatabaseProject\\list.txt
