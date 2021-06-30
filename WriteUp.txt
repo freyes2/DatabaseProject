@@ -1,0 +1,69 @@
+Fredi Reyes 5/1/2020 CS 4420 Database Systems
+Describe the design decisions made for each original column from the initial table, and why or
+why not separate tables were used.
+
+Year: Placed into tracks although this data can be removed since it can be calculated using
+data from the position table.
+
+Yearlyrank: Placed into tracks table although this data can be removed since it can be
+calculated using data from the position table.
+
+Source: This data was not used in the 3NF per instruction.
+
+Prefix: Placed into tracks table as a composite key.
+
+weeksCH: Placed into tracks table although this data can be removed since it can be calculated
+using data from the position table.
+
+Weeks40: Placed into tracks table although this data can be removed since it can be calculated
+using data from the position table.
+
+Weeks10: Placed into tracks table although this data can be removed since it can be calculated
+using data from the position table.
+
+Weekspeak: Placed into tracks table although this data can be removed since it can be
+calculated using data from the position table.
+
+Highest: Placed into tracks table although this data can be removed since it can be calculated
+using data from the position table.
+
+Verified: This data was not used in the 3NF per instruction.
+
+Artist: Distinct values placed into people table and referred to by tracks table through a foreign
+key. Placed into table separate from tracks since different tracks may refer to the same artist
+and duplicate data is not desired.
+
+Artistinverted: Placed into people table with corresponding artist value and referred to by
+tracks table through a foreign key.
+
+Tracktitle: Placed into tracks table.
+
+Time: Placed into tracks table.
+
+Symbol: This data was not used in the 3NF per instruction.
+
+Label: Distinct values placed into recordlabel table and referred to by tracks table through a
+foreign key. Placed into a table separate from tracks because the same label may be referred to
+by different tracks and duplicate data is not desired.
+
+Labnum: Placed into tracks table.
+
+Genre: This data was not used in the 3NF per instruction.
+
+Comment: Placed into tracks table.
+
+Bpm: Placed into tracks table.
+
+Writtenby1 - 8: Distinct values placed into people table with trackwriter table linking writers to
+tracks with order noted. Second ‘Sheb Wooley’ excluded from trackwriter table. Empty strings
+were excluded also. Placed into a table separate from tracks because the same writer may be
+referred to by different tracks causing duplication and repeating groups are not permitted.
+
+Dateentered: Placed into tracks table.
+
+Datepeaked: Placed into tracks table although this data can be removed since it can be
+calculated using data from the position table.
+
+Week1 - 76: Values greater than 0 placed into position table and refers to and is refered by
+track table through foreign keys. Placed into a table separate from tracks since a single track
+has multiple week values and repeating groups are not permitted.
