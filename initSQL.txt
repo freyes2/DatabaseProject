@@ -1,0 +1,154 @@
+create database musicchart;
+use musicchart;
+source build.txt;
+source load.txt;
+
+
+-- Creates and Populates People Table
+-- Uses temporary table to populate nameinverse faster (still takes a minute or two)
+create table people (
+  pl_id int not null auto_increment,
+  pl_name varchar(200) not null,
+  pl_nameinverse varchar(200),
+  primary key (pl_id)
+);
+
+insert into people (pl_name)
+select distinct artist from top100
+union select distinct writtenby1 from top100 where writtenby1 <> ''
+union select distinct writtenby2 from top100 where writtenby2 <> ''
+union select distinct writtenby3 from top100 where writtenby3 <> ''
+union select distinct writtenby4 from top100 where writtenby4 <> ''
+union select distinct writtenby5 from top100 where writtenby5 <> ''
+union select distinct writtenby6 from top100 where writtenby6 <> ''
+union select distinct writtenby7 from top100 where writtenby7 <> ''
+union select distinct writtenby8 from top100 where writtenby8 <> '';
+
+-- create temporary table temp_artist select artist, artistinverted from top100;
+
+-- update people, temp_artist
+-- set people.pl_nameinverse = temp_artist.artistinverted
+-- where people.pl_name = temp_artist.artist;
+
+-- Creates and Populates Recordlabel Table
+create table recordlabel (
+  rl_id int not null auto_increment,
+  rl_name varchar(30) not null,
+  primary key (rl_id)
+);
+
+insert into recordlabel (rl_name)
+select distinct label
+from top100;
+
+-- Creates and Populates Tracks Table
+create table tracks (
+  tr_id int not null auto_increment,
+  tr_prefix char(10),
+  tr_title varchar(100) not null,
+  tr_artistid int not null,
+  tr_time varchar(6),
+  tr_bpm int,
+  tr_comment varchar(250),
+  tr_labelid int,
+  tr_labnum varchar(10),
+  tr_dateentered date not null,
+  tr_datepeaked date not null,
+  tr_year char(4) not null,
+  tr_yearlyrank char(4) not null,
+  tr_weeksCH int not null default 0,
+  tr_weeks40 int not null default 0,
+  tr_weeks10 int not null default 0,
+  tr_weekspeak int not null default 0,
+  tr_highest int not null default 100,
+  primary key (tr_id),
+  foreign key (tr_artistid) references people (pl_id),
+  foreign key (tr_labelid) references recordlabel (rl_id)
+);
+
+insert into tracks (
+  tr_prefix, tr_title, tr_artistid, tr_time, tr_bpm, tr_comment, tr_labelid, tr_labnum, tr_dateentered, 
+  tr_datepeaked, tr_year, tr_yearlyrank, tr_weeksCH, tr_weeks40, tr_weeks10, tr_weekspeak, tr_highest)
+select
+  prefix, tracktitle, pl_id, time, bpm, comment, rl_id,
+  labnum, dateentered, datepeaked, year, yearlyrank,
+  weeksCH, weeks40, weeks10, weekspeak, highest
+from top100
+inner join people on top100.artist = people.pl_name
+inner join recordlabel on top100.label = recordlabel.rl_name;
+
+-- Creates and Populates trackwriter Linking Table using a temporary table
+create table trackwriter (
+  tw_trackid int not null,
+  tw_composerid int not null,
+  tw_writerorder int not null,
+  primary key (tw_trackid, tw_composerid),
+  foreign key (tw_trackid) references tracks (tr_id),
+  foreign key (tw_composerid) references people (pl_id)
+);
+
+create temporary table temp_writers
+select tr_id, writtenby1, writtenby2, writtenby3, writtenby4, writtenby5, writtenby6, writtenby7, writtenby8
+from top100 inner join tracks
+on top100.prefix = tracks.tr_prefix;
+
+insert into trackwriter (tw_trackid, tw_composerid, tw_writerorder)
+select tr_id, pl_id, 1
+from temp_writers
+inner join people
+on temp_writers.writtenby1 = people.pl_name;
+
+insert into trackwriter (tw_trackid, tw_composerid, tw_writerorder)
+select tr_id, pl_id, 2
+from temp_writers
+inner join people
+on temp_writers.writtenby2 = people.pl_name;
+
+insert into trackwriter (tw_trackid, tw_composerid, tw_writerorder)
+select tr_id, pl_id, 3
+from temp_writers
+inner join people
+on temp_writers.writtenby3 = people.pl_name
+where temp_writers.writtenby3 <> 'Sheb Wooley';
+
+insert into trackwriter (tw_trackid, tw_composerid, tw_writerorder)
+select tr_id, pl_id, 4
+from temp_writers
+inner join people
+on temp_writers.writtenby4 = people.pl_name;
+
+insert into trackwriter (tw_trackid, tw_composerid, tw_writerorder)
+select tr_id, pl_id, 5
+from temp_writers
+inner join people
+on temp_writers.writtenby5 = people.pl_name;
+
+insert into trackwriter (tw_trackid, tw_composerid, tw_writerorder)
+select tr_id, pl_id, 6
+from temp_writers
+inner join people
+on temp_writers.writtenby6 = people.pl_name;
+
+insert into trackwriter (tw_trackid, tw_composerid, tw_writerorder)
+select tr_id, pl_id, 7
+from temp_writers
+inner join people
+on temp_writers.writtenby7 = people.pl_name;
+
+insert into trackwriter (tw_trackid, tw_composerid, tw_writerorder)
+select tr_id, pl_id, 8
+from temp_writers
+inner join people
+on temp_writers.writtenby8 = people.pl_name;
+
+-- Creates and Populates Chart Position Table
+create table position (
+  po_track_id int not null auto_increment,
+  po_week int,
+  po_date date,
+  po_pos int,
+  primary key (po_track_id, po_date),
+  foreign key (po_track_id) references tracks (tr_id)
+);
+
+source pos.txt;
