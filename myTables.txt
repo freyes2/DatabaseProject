@@ -1,0 +1,64 @@
+mysql> desc people;
++----------------+--------------+------+-----+---------+----------------+
+| Field | Type | Null | Key | Default | Extra |
++----------------+--------------+------+-----+---------+----------------+
+| pl_id | int | NO | PRI | NULL | auto_increment |
+| pl_name | varchar(200) | NO | | NULL | |
+| pl_nameinverse | varchar(200) | YES | | NULL | |
++----------------+--------------+------+-----+---------+----------------+
+3 rows in set (0.04 sec)
+
+mysql> desc recordlabel;
++---------+-------------+------+-----+---------+----------------+
+| Field | Type | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+----------------+
+| rl_id | int | NO | PRI | NULL | auto_increment |
+| rl_name | varchar(30) | NO | | NULL | |
++---------+-------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> desc tracks;
++----------------+--------------+------+-----+---------+----------------+
+| Field | Type | Null | Key | Default | Extra |
++----------------+--------------+------+-----+---------+----------------+
+| tr_id | int | NO | PRI | NULL | auto_increment |
+| tr_prefix | char(10) | YES | | NULL | |
+| tr_title | varchar(100) | NO | | NULL | |
+| tr_artistid | int | NO | MUL | NULL | |
+| tr_time | varchar(6) | YES | | NULL | |
+| tr_bpm | int | YES | | NULL | |
+| tr_comment | varchar(250) | YES | | NULL | |
+| tr_labelid | int | YES | MUL | NULL | |
+| tr_labnum | varchar(10) | YES | | NULL | |
+| tr_dateentered | date | NO | | NULL | |
+| tr_datepeaked | date | NO | | NULL | |
+| tr_year | char(4) | NO | | NULL | |
+| tr_yearlyrank | char(4) | NO | | NULL | |
+| tr_weeksCH | int | NO | | 0 | |
+| tr_weeks40 | int | NO | | 0 | |
+| tr_weeks10 | int | NO | | 0 | |
+| tr_weekspeak | int | NO | | 0 | |
+| tr_highest | int | NO | | 100 | |
++----------------+--------------+------+-----+---------+----------------+
+18 rows in set (0.01 sec)
+
+mysql> desc trackwriter;
++----------------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++----------------+------+------+-----+---------+-------+
+| tw_trackid | int | NO | PRI | NULL | |
+| tw_composerid | int | NO | PRI | NULL | |
+| tw_writerorder | int | NO | | NULL | |
++----------------+------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> desc position;
++-------------+------+------+-----+---------+----------------+
+| Field | Type | Null | Key | Default | Extra |
++-------------+------+------+-----+---------+----------------+
+| po_track_id | int | NO | PRI | NULL | auto_increment |
+| po_week | int | YES | | NULL | |
+| po_date | date | NO | PRI | NULL | |
+| po_pos | int | YES | | NULL | |
++-------------+------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
