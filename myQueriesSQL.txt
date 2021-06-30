@@ -1,0 +1,83 @@
+-- Query #1
+select po_pos Position, tr_title Title, pl_name Artist, tr_dateentered DateEntered
+from tracks
+inner join people on tracks.tr_artistid = people.pl_id
+inner join position on tracks.tr_id = position.po_track_id
+where po_date = '1968-09-07'
+order by po_pos;
+
+-- Query #2
+select distinct tr_title Title, pl_name Artist
+from tracks
+inner join people on tracks.tr_artistid = people.pl_id
+inner join position on tracks.tr_id = position.po_track_id
+where po_date like '1970%' and po_pos = '10'
+order by tr_title;
+
+-- Query #3
+select pl_name Composer, tr_title Title, tr_highest HighestPosition
+from trackwriter
+inner join tracks on trackwriter.tw_trackid = tracks.tr_id
+inner join people on trackwriter.tw_composerid = people.pl_id
+where tr_year = '1972' and tr_highest = '1'
+order by pl_name;
+
+-- Query #4
+select pl_name Artist, tr_title Title, tr_datepeaked DatePeaked, tr_highest HighestPosition
+from tracks
+inner join people on tracks.tr_artistid = people.pl_id
+where tr_year = '1969' and tr_highest = '1'
+order by tr_datepeaked;
+
+-- Query #5
+select tr_title Title, pl_name Artist, tr_highest HighestPosition
+from trackwriter
+inner join tracks on trackwriter.tw_trackid = tracks.tr_id
+inner join people on trackwriter.tw_composerid = people.pl_id
+where tr_year = '1973' and tr_highest <= 20 and tracks.tr_artistid = trackwriter.tw_composerid
+order by pl_name;
+
+-- Query #6
+select tr_title Title, pl_name Artist, count(*) WeekCount
+from tracks
+inner join people on tracks.tr_artistid = people.pl_id
+inner join position on tracks.tr_id = position.po_track_id
+where po_date like '1972%'
+group by tr_id
+order by count(*) desc
+limit 2;
+
+-- Query #7
+select distinct tr_title Ttile, pl_name Artist
+from tracks
+inner join people on tracks.tr_artistid = people.pl_id
+inner join position on tracks.tr_id = position.po_track_id
+where po_pos <= 10 and po_date like '1969-07-%'
+order by pl_name;
+
+-- Query #8
+select tracks.tr_title Title, pl_name Artist, tr_highest HighestPosition, tr_datepeaked DatePeaked
+from (select tr_title
+from tracks
+where tr_year = '1969'
+group by tr_title
+having count(*) > 1) as multiperformedtitles
+inner join tracks on tracks.tr_title = multiperformedtitles.tr_title
+inner join people on tracks.tr_artistid = people.pl_id
+where tr_year = '1969'
+order by tracks.tr_title, tr_highest;
+
+-- Query #9
+select po_pos Position, tr_title Title, pl_name Artist
+from tracks
+inner join people on tracks.tr_artistid = people.pl_id
+inner join position on tracks.tr_id = position.po_track_id
+where po_date = '1964-04-04' and po_pos <= 40
+order by po_pos;
+
+-- Query #10
+select tr_title Title, pl_name Artist, tr_datepeaked DatePeaked, tr_highest HighestPosition
+from tracks
+inner join people on tracks.tr_artistid = people.pl_id
+where tr_year = '1968' and tr_highest <= 10 and tr_highest > 5
+order by tr_datepeaked, tr_highest;
