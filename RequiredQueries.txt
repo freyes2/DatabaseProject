@@ -1,0 +1,50 @@
+CS4420/5420 Database Project
+Spring 2020 – Required Queries
+
+Undergraduate Required Queries:
+Wherever a year or date is specified below, be sure to rely on either the track year or the
+actual position dates from the weekly data as asked for in the problem. You will obtain
+different, incorrect results if you use a different method than that specified. Be sure to
+print results with 1 row per printed line– difficult to read output will be given a 0.
+
+1) Show the entire 100 entries in the chart for position date September 7, 1968. The resulting
+table should have columns: Position, Title, Artist, DateEntered, ordered by position. (100 rows)
+
+2) Show all distinct tracks whose position data is in 1970 (not the track year, but by position
+dates), which, at any time, occupied the #10 chart position (not necessarily the track’s highest
+position reached). Show the song title and artist, ordered by title (43 rows).
+
+3) What composers had their song reach number 1 for track year (not position year) 1972?
+Order by composer name, showing composer name, song title, highest position (should all be
+1). 31 rows.
+
+4) What artists hit #1 in 1969, based only on the track year column, rather than the individual
+position dates? Show artist, title, date peaked, highest position (should be ‘1'), order by DATE
+PEAKED. 16 rows.
+
+5) What artists also wrote the track and had their peak position in the top 20 for track year =
+1973? Show track title, artist name, highest position, ordered by artist name. Should yield 40
+rows.
+
+6) Either by fancy SQL code or examination of the results of less fancy code, ascertain what 2
+songs were on the chart the longest in 1972, and show the answer and the results that
+provided the answer (you can hand mark the answer, need not have SQL print it. NOTE: use
+the position dates within 1972, not the track year for this one!
+
+7) Which DISTINCT songs made the chart top 10 in July of 1969? (Note: we are looking for
+the position(s) <= 10 during that July time period; this is NOT the same as Highest
+Position<=10... the highest may have happened outside of July!) It should be 14 rows of
+unique songs. Show title and artist, ordered by artist.
+
+8) Using the track’s YEAR field (not position dates!) to determine the year, what song titles
+were performed by more than one artist for songs appearing on the chart any time in 1969?
+Show song title and artists, highest position, and date peaked for each, ordered by song title
+(so the same titles are next to each other) and track ‘highest’ position. (27 rows) Hint: you will
+need to reference the tracks table twice, using aliases, in the same query!
+
+9) Show the top 40 songs for the week of 1964-04-04, showing in position order (1-40) the
+titles and artists. Do you notice anything unusual in the result? (40 rows)
+
+10) What songs having a TRACK YEAR = 1968 got their highest position in the Top 10, but
+never got into the Top 5? Show title, artist, and date peaked, ordered by date peaked, and
+highest position (39 rows)
